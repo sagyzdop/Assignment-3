@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregivers Platform - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        .card { 
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .card:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+        .icon-large {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-heart-pulse"></i> Caregivers Platform
+            </a>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4">Online Caregivers Platform</h1>
+            <p class="lead">Manage users, caregivers, members, jobs, and appointments</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people icon-large text-primary"></i>
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text">Manage user accounts and profiles</p>
+                        <a href="/users" class="btn btn-primary">View Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-badge icon-large text-success"></i>
+                        <h5 class="card-title">Caregivers</h5>
+                        <p class="card-text">Manage caregiver profiles and rates</p>
+                        <a href="/caregivers" class="btn btn-success">View Caregivers</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-house-heart icon-large text-info"></i>
+                        <h5 class="card-title">Members</h5>
+                        <p class="card-text">Manage member households</p>
+                        <a href="/members" class="btn btn-info">View Members</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-briefcase icon-large text-warning"></i>
+                        <h5 class="card-title">Job Postings</h5>
+                        <p class="card-text">Browse and manage job listings</p>
+                        <a href="/jobs" class="btn btn-warning">View Jobs</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check icon-large text-danger"></i>
+                        <h5 class="card-title">Appointments</h5>
+                        <p class="card-text">Schedule and track appointments</p>
+                        <a href="/appointments" class="btn btn-danger">View Appointments</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

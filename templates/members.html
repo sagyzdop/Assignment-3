@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members - Caregivers Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Caregivers Platform</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/caregivers">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/members">Members</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/appointments">Appointments</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Members</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Add Member</button>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>House Rules</th>
+                    <th>Dependent Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                <tr>
+                    <td>{{ member.member_user_id }}</td>
+                    <td>{{ member.given_name }} {{ member.surname }}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.house_rules }}</td>
+                    <td>{{ member.dependent_description }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ member.member_user_id }}">Edit</button>
+                        <form method="POST" action="/delete_member/{{ member.member_user_id }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this member?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="editModal{{ member.member_user_id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Member</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <form method="POST" action="/update_member/{{ member.member_user_id }}">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">House Rules</label>
+                                        <textarea class="form-control" name="house_rules" rows="3">{{ member.house_rules }}</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Dependent Description</label>
+                                        <textarea class="form-control" name="dependent_description" rows="3">{{ member.dependent_description }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="createModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Member</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="/create_member">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">User</label>
+                            <select class="form-select" name="user_id" required>
+                                <option value="">Select User</option>
+                                {% for user in users %}
+                                <option value="{{ user.user_id }}">{{ user.given_name }} {{ user.surname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">House Rules</label>
+                            <textarea class="form-control" name="house_rules" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dependent Description</label>
+                            <textarea class="form-control" name="dependent_description" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

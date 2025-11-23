@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregivers - Caregivers Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Caregivers Platform</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/caregivers">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/members">Members</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/appointments">Appointments</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Caregivers</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Add Caregiver</button>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Type</th>
+                    <th>Hourly Rate</th>
+                    <th>Photo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for caregiver in caregivers %}
+                <tr>
+                    <td>{{ caregiver.caregiver_user_id }}</td>
+                    <td>{{ caregiver.given_name }} {{ caregiver.surname }}</td>
+                    <td>{{ caregiver.email }}</td>
+                    <td>{{ caregiver.gender }}</td>
+                    <td>{{ caregiver.caregiving_type }}</td>
+                    <td>${{ caregiver.hourly_rate }}</td>
+                    <td>{{ caregiver.photo }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ caregiver.caregiver_user_id }}">Edit</button>
+                        <form method="POST" action="/delete_caregiver/{{ caregiver.caregiver_user_id }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this caregiver?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="editModal{{ caregiver.caregiver_user_id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Caregiver</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <form method="POST" action="/update_caregiver/{{ caregiver.caregiver_user_id }}">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Photo URL</label>
+                                        <input type="text" class="form-control" name="photo" value="{{ caregiver.photo }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Gender</label>
+                                        <select class="form-select" name="gender" required>
+                                            <option value="Male" {% if caregiver.gender == 'Male' %}selected{% endif %}>Male</option>
+                                            <option value="Female" {% if caregiver.gender == 'Female' %}selected{% endif %}>Female</option>
+                                            <option value="Other" {% if caregiver.gender == 'Other' %}selected{% endif %}>Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Caregiving Type</label>
+                                        <select class="form-select" name="caregiving_type" required>
+                                            <option value="Babysitter" {% if caregiver.caregiving_type == 'Babysitter' %}selected{% endif %}>Babysitter</option>
+                                            <option value="Caretaker" {% if caregiver.caregiving_type == 'Caretaker' %}selected{% endif %}>Caretaker</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Hourly Rate</label>
+                                        <input type="number" step="0.01" class="form-control" name="hourly_rate" value="{{ caregiver.hourly_rate }}" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="createModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Caregiver</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="/create_caregiver">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">User</label>
+                            <select class="form-select" name="user_id" required>
+                                <option value="">Select User</option>
+                                {% for user in users %}
+                                <option value="{{ user.user_id }}">{{ user.given_name }} {{ user.surname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Photo URL</label>
+                            <input type="text" class="form-control" name="photo">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Caregiving Type</label>
+                            <select class="form-select" name="caregiving_type" required>
+                                <option value="">Select Type</option>
+                                <option value="Babysitter">Babysitter</option>
+                                <option value="Caretaker">Caretaker</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hourly Rate</label>
+                            <input type="number" step="0.01" class="form-control" name="hourly_rate" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create Caregiver</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
