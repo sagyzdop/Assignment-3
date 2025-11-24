@@ -116,11 +116,11 @@ Live URL: **https://assignment-3-tkq0.onrender.com**
 - **Deployment:** Full-stack cloud deployment with automatic GitHub integration
 
 **Deployment Features:**
-- ✅ Complete application deployed at https://assignment-3-tkq0.onrender.com
-- ✅ Automatic deployments from GitHub repository
-- ✅ External database connections supported (Supabase PostgreSQL)
-- ✅ Environment variables configured in Render dashboard
-- ✅ Python 3.12 runtime with gunicorn WSGI server
+- Complete application deployed at https://assignment-3-tkq0.onrender.com
+- Automatic deployments from GitHub repository
+- External database connections supported (Supabase PostgreSQL)
+- Environment variables configured in Render dashboard
+- Python 3.12 runtime with gunicorn WSGI server
 
 ### Local Development
 
