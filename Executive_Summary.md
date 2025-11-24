@@ -3,7 +3,7 @@
 ### What Was Accomplished
 
 - Complete normalized database schema with proper relationships
-- Cloud deployment on PythonAnywhere with Supabase PostgreSQL
+- Cloud deployment on Render.com with Supabase PostgreSQL
 - Automatic schema initialization on first application startup
 - All 14 SQL queries functioning correctly (updates, deletes, joins, aggregations, views)
 - Full-stack web application with complete CRUD operations for all entities
@@ -11,7 +11,7 @@
 
 ### Technology Stack
 
-PostgreSQL 15 (Supabase), Python 3, SQLAlchemy 2.0, Flask 3.0, Bootstrap 5, PythonAnywhere, NullPool
+PostgreSQL 15 (Supabase), Python 3, SQLAlchemy 2.0, Flask 3.0, Bootstrap 5, Render.com, Gunicorn, NullPool
 
 ### Part 1: Database Design
 
@@ -27,4 +27,4 @@ Built a Flask-based CRUD application with complete data management for all 5 mai
 
 ### Deployment
 
-Application frontend deployed to PythonAnywhere (https://sagyzdop.pythonanywhere.com). Full-stack deployment with Supabase PostgreSQL demonstrated locally. External database connections from PythonAnywhere require paid accounts, so production demonstrates frontend deployment while database operations run on localhost with cloud database (Supabase). Architecture is production-ready and can be fully deployed on platforms without external connection restrictions.
+Full-stack application deployed to Render.com (https://assignment-3-tkq0.onrender.com) with Supabase PostgreSQL cloud database. The deployment uses automatic GitHub integration, Python 3.12 runtime, and gunicorn WSGI server. Application is fully functional in production with complete database connectivity.

@@ -8,7 +8,7 @@ load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
 engine = create_engine(DATABASE_URL, poolclass=NullPool)
 
-print("Loading schema and data to Supabase...")
+print("Loading schema and data to database...")
 
 with open('schema_and_data.sql', 'r') as f:
     sql_content = f.read()

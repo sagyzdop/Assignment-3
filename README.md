@@ -2,35 +2,61 @@
 
 PostgreSQL-backed caregivers management platform with Python utilities and Flask web interface.
 
-## Quick Start with Docker
+## Quick Start with Docker (Local Development)
 
-### 1. Start PostgreSQL Database
+### 1. Start PostgreSQL Database + pgAdmin
 
 ```bash
 docker-compose up -d
 ```
 
-### 2. Load Schema and Data
+This starts:
+- **PostgreSQL 15** on `localhost:5432`
+- **pgAdmin 4** on `http://localhost:5050`
+
+### 2. Access pgAdmin
+
+Visit: **http://localhost:5050**
+- Email: `admin@caregivers.com`
+- Password: `admin`
+
+The database connection is pre-configured and ready to use!
+
+### 3. Load Schema and Data
 
 ```bash
 docker exec -i caregivers_db psql -U postgres -d caregivers_db < schema_and_data.sql
 ```
 
-### 3. Install Python Dependencies
+### 4. Install Python Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run Part 2 Queries
+### 5. Run with Local Database
 
+**Option A: Use local Docker database**
 ```bash
+# Create .env file
+echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/caregivers_db" > .env
+
+# Run queries
 python3 queries.py
+
+# Run web app
+python3 app.py
 ```
 
-### 5. Run Part 3 Web Application
-
+**Option B: Use cloud Supabase database**
 ```bash
+# Set Supabase URL in .env
+echo "DATABASE_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.pooler.supabase.com:5432/postgres" > .env
+
+# Run queries
+python3 queries.py
+
+# Run web app
 python3 app.py
 ```
 
@@ -41,7 +67,8 @@ Visit: **http://127.0.0.1:5000/**
 - PostgreSQL 15 (Docker for local, Supabase for production)
 - Python 3 + SQLAlchemy 2.0
 - Flask 3.0 + Bootstrap 5
-- PythonAnywhere (cloud deployment)
+- pgAdmin 4 (database management UI)
+- Render.com (cloud deployment)
 
 ## Features
 
@@ -51,38 +78,51 @@ Visit: **http://127.0.0.1:5000/**
 
 ## Database Management
 
+### Docker Management
 ```bash
-# Stop container
+# Stop containers
+docker-compose down
+
+# Stop and remove all data
 docker-compose down -v
 
-# Access PostgreSQL CLI
+# View logs
+docker-compose logs -f
+
+# Restart services
+docker-compose restart
+```
+
+### pgAdmin (Web UI)
+Access at **http://localhost:5050** when Docker is running
+- Pre-configured connection to local PostgreSQL
+- Visual query builder
+- Database browser and editor
+
+### PostgreSQL CLI
+```bash
+# Access PostgreSQL directly
 docker exec -it caregivers_db psql -U postgres -d caregivers_db
 ```
 
 ## Production Deployment
 
-### Deployed Frontend
-Live URL: **https://sagyzdop.pythonanywhere.com** (frontend only)
+### Live Application
+Live URL: **https://assignment-3-tkq0.onrender.com**
 
 ### Architecture
-- **Frontend Hosting:** PythonAnywhere (free tier)
+- **Hosting Platform:** Render.com (free tier)
 - **Database:** Supabase PostgreSQL (cloud-managed PostgreSQL 15)
-- **Full-Stack:** Local development with cloud database
+- **Deployment:** Full-stack cloud deployment with automatic GitHub integration
 
-### PythonAnywhere Limitation
+**Deployment Features:**
+- ✅ Complete application deployed at https://assignment-3-tkq0.onrender.com
+- ✅ Automatic deployments from GitHub repository
+- ✅ External database connections supported (Supabase PostgreSQL)
+- ✅ Environment variables configured in Render dashboard
+- ✅ Python 3.12 runtime with gunicorn WSGI server
 
-**Important:** PythonAnywhere free tier does not support external database connections. From their documentation:
-
-> "Accessing your PostgreSQL database from outside PythonAnywhere"
-> "Warning -- this will only work in paid accounts"
-> https://help.pythonanywhere.com/pages/AccessingPostgresFromOutsidePythonAnywhere/
-
-**Current Deployment:**
-- ✅ Frontend deployed and accessible at https://sagyzdop.pythonanywhere.com
-- ✅ Full application (frontend + database) runs locally with Supabase cloud database
-- ❌ Full cloud deployment requires PythonAnywhere paid account ($5/month)
-
-### Local Development (Full-Stack with Cloud Database)
+### Local Development
 
 ```bash
 # Set Supabase connection in .env
@@ -93,25 +133,3 @@ python3 app.py
 
 # Visit http://127.0.0.1:5000
 ```
-
-The application is fully functional locally with Supabase cloud database, demonstrating production-ready architecture.
-
-### Alternative Free Cloud Platforms
-
-For free full-stack deployment with external database support:
-
-**Render.com (Recommended):**
-- Free PostgreSQL database
-- Free web service hosting
-- No external connection restrictions
-- Deploy from GitHub
-
-**Railway.app:**
-- Free tier with PostgreSQL
-- Automatic deployments
-- Environment variables in dashboard
-
-**Heroku:**
-- Free tier with PostgreSQL add-on
-- Git-based deployment
-- Buildpack auto-detection
