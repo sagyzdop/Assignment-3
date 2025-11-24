@@ -80,3 +80,7 @@ docker-compose down -v
 **Part 1:** Database schema with 10+ rows per table  
 **Part 2:** 14 queries (updates, deletes, joins, aggregations, views)  
 **Part 3:** Full CRUD web app for all entities
+
+---
+
+[GitHub Repository](https://github.com/sagyzdop/Assignment-3)
