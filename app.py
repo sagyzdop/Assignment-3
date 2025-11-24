@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine, text
+from sqlalchemy.pool import NullPool
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
-
-DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/caregivers_db'
-engine = create_engine(DATABASE_URL)
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/caregivers_db')
+engine = create_engine(DATABASE_URL, poolclass=NullPool)
 
 @app.route('/')
 def index():

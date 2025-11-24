@@ -31,13 +31,12 @@
 
 6. **Seed data** - "I've inserted over 10 realistic records per table, including the required test data: Arman Armanov, Amina Aminova, addresses on Kabanbay Batyr street, and jobs requiring 'soft-spoken' caregivers."
 
-**Show terminal:**
+### Show terminal:
 ```bash
-docker-compose up -d
-docker exec -i caregivers_db psql -U postgres -d caregivers_db < schema_and_data.sql
+python3 load_schema.py
 ```
 
-"The database is running in Docker and fully populated."
+"The schema loads automatically to Supabase cloud database on first run."
 
 ---
 
@@ -174,24 +173,33 @@ python3 queries.py
 ### Show file structure briefly
 
 "The project uses:
-- PostgreSQL 15 running in Docker
-- Python 3 with SQLAlchemy 2.0 for database operations
+- PostgreSQL 15 on Supabase cloud platform
+- Python 3 with SQLAlchemy 2.0 and NullPool for transaction pooling
 - Flask 3.0 for the web framework
 - Bootstrap 5 for responsive UI design
+- PythonAnywhere for frontend hosting (full-stack locally)
 
 Everything is version controlled and includes:
-- docker-compose.yml for easy database setup
-- requirements.txt for Python dependencies
-- Comprehensive README with setup instructions
-- Executive summary documenting all components"
+- Automatic schema initialization on startup
+- requirements.txt for Python dependencies with python-dotenv
+- Comprehensive README with deployment instructions
+- Executive summary documenting all components
+
+Note: External database connections require paid PythonAnywhere accounts, so full deployment runs locally with cloud database."
 
 ---
 
 ## DEPLOYMENT READINESS (20 seconds)
 
-### Show app.py connection string
+### Show browser at https://sagyzdop.pythonanywhere.com
 
-"The application is production-ready for PythonAnywhere deployment. The database connection string can be easily updated for remote hosting, and the Flask app is configured to run on any host."
+"The application frontend is deployed to PythonAnywhere and accessible online. However, PythonAnywhere's free tier does not allow external database connections - this requires a paid account at $5 per month.
+
+Rather than pay for an assignment, I'm demonstrating the full-stack application running locally with Supabase cloud database. This shows the complete production-ready architecture."
+
+### Show localhost:5000 working
+
+"As you can see, the application works perfectly with the cloud database from localhost. The code is identical - only the hosting platform differs. For free full-stack deployment, platforms like Render.com or Railway.app support external databases without restrictions."
 
 ---
 

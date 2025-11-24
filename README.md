@@ -61,6 +61,57 @@ docker exec -it caregivers_db psql -U postgres -d caregivers_db
 
 ## Production Deployment
 
-Application deployed to PythonAnywhere: `https://sagyzdop.pythonanywhere.com`
+### Deployed Frontend
+Live URL: **https://sagyzdop.pythonanywhere.com** (frontend only)
 
-Database hosted on Supabase PostgreSQL with environment variable configuration for secure connection management.
+### Architecture
+- **Frontend Hosting:** PythonAnywhere (free tier)
+- **Database:** Supabase PostgreSQL (cloud-managed PostgreSQL 15)
+- **Full-Stack:** Local development with cloud database
+
+### PythonAnywhere Limitation
+
+**Important:** PythonAnywhere free tier does not support external database connections. From their documentation:
+
+> "Accessing your PostgreSQL database from outside PythonAnywhere"
+> "Warning -- this will only work in paid accounts"
+> https://help.pythonanywhere.com/pages/AccessingPostgresFromOutsidePythonAnywhere/
+
+**Current Deployment:**
+- ✅ Frontend deployed and accessible at https://sagyzdop.pythonanywhere.com
+- ✅ Full application (frontend + database) runs locally with Supabase cloud database
+- ❌ Full cloud deployment requires PythonAnywhere paid account ($5/month)
+
+### Local Development (Full-Stack with Cloud Database)
+
+```bash
+# Set Supabase connection in .env
+DATABASE_URL=postgresql://postgres.PROJECT_ID:PASSWORD@aws-1-us-east-1.pooler.supabase.com:5432/postgres
+
+# Run application
+python3 app.py
+
+# Visit http://127.0.0.1:5000
+```
+
+The application is fully functional locally with Supabase cloud database, demonstrating production-ready architecture.
+
+### Alternative Free Cloud Platforms
+
+For free full-stack deployment with external database support:
+
+**Render.com (Recommended):**
+- Free PostgreSQL database
+- Free web service hosting
+- No external connection restrictions
+- Deploy from GitHub
+
+**Railway.app:**
+- Free tier with PostgreSQL
+- Automatic deployments
+- Environment variables in dashboard
+
+**Heroku:**
+- Free tier with PostgreSQL add-on
+- Git-based deployment
+- Buildpack auto-detection

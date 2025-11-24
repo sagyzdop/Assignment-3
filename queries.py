@@ -1,7 +1,12 @@
 from sqlalchemy import create_engine, text
+from sqlalchemy.pool import NullPool
+from dotenv import load_dotenv
+import os
 
-DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/caregivers_db'
-engine = create_engine(DATABASE_URL)
+load_dotenv()
+
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/caregivers_db')
+engine = create_engine(DATABASE_URL, poolclass=NullPool)
 
 def run():
     with engine.begin() as conn:
@@ -65,10 +70,10 @@ def run():
             print(r._asdict())
 
         print('\n5.2) Jobs with "soft-spoken" in requirements')
-        for r in conn.execute(text("SELECT job_id, other_requirements FROM job WHERE other_requirements ILIKE '%soft-spoken%'") ):
+        for r in conn.execute(text("SELECT job_id, other_requirements FROM job WHERE other_requirements ILIKE '%soft-spoken%'")):
             print(r._asdict())
 
-        print('\n5.3) Work hours of all babysitter appointments (caregivers with Babysitter type)')
+        print('\n5.3) Work hours of all babysitter appointments')
         q = text("""
             SELECT a.appointment_id, a.work_hours, c.caregiving_type,
                    cu.given_name || ' ' || cu.surname AS caregiver_name,
@@ -106,7 +111,7 @@ def run():
         r = conn.execute(text("SELECT COALESCE(SUM(work_hours),0) AS total_hours FROM appointment WHERE status='accepted'"))
         print(r.fetchone()._asdict())
 
-        print('\n6.3) Average hourly_rate of caregivers who have accepted appointments')
+        print('\n6.3) Average hourly_rate of caregivers with accepted appointments')
         q = text("""
             SELECT AVG(c.hourly_rate) AS avg_hourly
             FROM caregiver c
@@ -115,7 +120,7 @@ def run():
         """)
         print(conn.execute(q).fetchone()._asdict())
 
-        print('\n6.4) Caregivers earning above average (for those with accepted appointments)')
+        print('\n6.4) Caregivers earning above average')
         avg_row = conn.execute(text("""
             SELECT AVG(c.hourly_rate) AS avg_hourly
             FROM caregiver c
@@ -133,7 +138,7 @@ def run():
         for r in conn.execute(q, {'avg': avg_hourly}):
             print(r._asdict())
 
-        print('\n7) Total cost for all accepted appointments (sum of work_hours * caregiver hourly_rate)')
+        print('\n7) Total cost for accepted appointments')
         q = text("""
             SELECT COALESCE(SUM(a.work_hours * c.hourly_rate),0) AS total_cost
             FROM appointment a
@@ -142,7 +147,7 @@ def run():
         """)
         print(conn.execute(q).fetchone()._asdict())
 
-        print('\n8) Create/Select view job_applicants (applications with applicant info)')
+        print('\n8) Create view job_applicants')
         conn.execute(text("""
             CREATE OR REPLACE VIEW job_applicants AS
             SELECT ja.job_id, ja.date_applied, u.user_id AS applicant_user_id, u.given_name, u.surname, c.caregiving_type, c.hourly_rate
