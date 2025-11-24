@@ -86,6 +86,18 @@ INSERT INTO caregiver (caregiver_user_id, photo, gender, caregiving_type, hourly
  (6, 'aliya.jpg', 'female', 'Babysitter', 11.00),
  (7, 'serik.jpg', 'male', 'Special Needs', 13.00);
 
+INSERT INTO users (email, given_name, surname, city, phone_number, profile_description, password) VALUES
+ ('aigerim.k@example.com', 'Aigerim', 'Kenzheeva', 'Astana', '+77016017018', 'Senior care specialist.', 'pass13'),
+ ('timur.t@example.com', 'Timur', 'Temirkhanov', 'Almaty', '+77018019020', 'Experienced with infants.', 'pass14'),
+ ('saule.s@example.com', 'Saule', 'Samatova', 'Shymkent', '+77020021022', 'Physical therapy background.', 'pass15'),
+ ('azamat.a@example.com', 'Azamat', 'Aitzhanov', 'Astana', '+77022023024', 'Weekend availability.', 'pass16');
+
+INSERT INTO caregiver (caregiver_user_id, photo, gender, caregiving_type, hourly_rate) VALUES
+ (13, 'aigerim.jpg', 'female', 'Elderly Care', 14.50),
+ (14, 'timur.jpg', 'male', 'Babysitter', 10.00),
+ (15, 'saule.jpg', 'female', 'Special Needs', 16.00),
+ (16, 'azamat.jpg', 'male', 'Babysitter', 9.00);
+
 INSERT INTO member (member_user_id, house_rules, dependent_description) VALUES
  (2, 'No smoking; No pets', 'Requires part-time help for an elderly parent.'),
  (8, 'No pets', 'Toddler, 2 years old.'),
@@ -94,13 +106,29 @@ INSERT INTO member (member_user_id, house_rules, dependent_description) VALUES
  (11, 'No pets', 'Senior with dementia.'),
  (12, 'No shoes indoors; No pets', 'Elderly, needs weekly visits.');
 
+INSERT INTO users (email, given_name, surname, city, phone_number, profile_description, password) VALUES
+ ('dana.d@example.com', 'Dana', 'Dauletova', 'Almaty', '+77024025026', 'Two children, ages 5 and 7.', 'pass17'),
+ ('ruslan.r@example.com', 'Ruslan', 'Rakhimov', 'Astana', '+77026027028', 'Elderly father with Alzheimers.', 'pass18'),
+ ('gaukhar.g@example.com', 'Gaukhar', 'Galieva', 'Karaganda', '+77028029030', 'Newborn, first-time parent.', 'pass19'),
+ ('askar.a@example.com', 'Askar', 'Aldabergenov', 'Astana', '+77030031032', 'Disabled brother needs care.', 'pass20');
+
+INSERT INTO member (member_user_id, house_rules, dependent_description) VALUES
+ (17, 'No smoking', 'Two school-age children.'),
+ (18, 'Quiet environment; No pets', 'Father with Alzheimers disease.'),
+ (19, 'Pets allowed', 'Newborn baby, 3 months old.'),
+ (20, 'Wheelchair accessible', 'Brother with mobility impairment.');
+
 INSERT INTO address (member_user_id, house_number, street, town) VALUES
  (2, '12', 'Kabanbay Batyr', 'Almaty'),
  (8, '45', 'Azattyq', 'Astana'),
  (9, '7', 'Al-Farabi', 'Almaty'),
  (10, '101', 'Kabanbay Batyr', 'Astana'),
  (11, '20', 'Dostyk', 'Astana'),
- (12, '3', 'Saryarka', 'Astana');
+ (12, '3', 'Saryarka', 'Astana'),
+ (17, '88', 'Abay', 'Almaty'),
+ (18, '15', 'Mangilik El', 'Astana'),
+ (19, '42', 'Seifullin', 'Karaganda'),
+ (20, '9', 'Respublika', 'Astana');
 
 INSERT INTO job (member_user_id, required_caregiving_type, other_requirements, date_posted) VALUES
  (2, 'Elderly Care', 'Soft-spoken preferred; experience with diabetes', '2025-09-01'),
@@ -137,7 +165,9 @@ INSERT INTO appointment (caregiver_user_id, member_user_id, appointment_date, ap
  (6, 8, '2025-10-09', '10:00', 2.50, 'rejected'),
  (1, 11, '2025-10-11', '09:00', 6.00, 'accepted'),
  (4, 12, '2025-10-13', '08:00', 3.00, 'accepted'),
- (3, 10, '2025-10-15', '16:00', 2.00, 'accepted');
+ (3, 10, '2025-10-15', '16:00', 2.00, 'accepted'),
+ (13, 17, '2025-10-17', '15:00', 4.50, 'accepted'),
+ (14, 19, '2025-10-19', '12:00', 3.00, 'pending');
 
 CREATE OR REPLACE VIEW job_applicants AS
 SELECT ja.job_id, ja.date_applied, u.user_id AS applicant_user_id, u.given_name, u.surname, c.caregiving_type, c.hourly_rate
